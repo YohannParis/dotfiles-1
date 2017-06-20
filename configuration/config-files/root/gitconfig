@@ -127,7 +127,13 @@
   # always prune remote branches
   fetch = fetch --prune
   ps = push
-  # push the current local branch to origin and track it
+  # push force without push -f privileges: delete the remote branch and push it again
+  ps-f = "!f(){\
+    BRANCH_NAME=$(git rev-parse --abbrev-ref --symbolic-full-name HEAD);\
+    git push origin :$BRANCH_NAME;\
+    git psnb;\
+  };f"
+  # push the current locla branch to origin and track it
   psnb = "!f() { git push origin $(git rev-parse --abbrev-ref HEAD) --set-upstream;}; f"
   pl = pull --prune
 
